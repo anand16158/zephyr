@@ -64,4 +64,22 @@ config ENTROPY_STM32_CLK_CHECK
 	  available, CED is enabled by default). Disable this check if CED is
 	  disabled.
 
+config ENTROPY_STM32_CLK_SOURCE_CHECK
+	bool "Runtime RNG kernel clock source check"
+	depends on SOC_SERIES_STM32H7X
+	default y
+	help
+	  On STM32H7, the RNG peripheral requires a 48 MHz kernel clock
+	  (typically HSI48) selected via the RNGSEL mux. If this clock is
+	  not enabled, the driver hangs indefinitely inside generate_from_isr()
+	  with interrupts locked, because RNG_SR.DRDY never asserts.
+	  When this option is enabled (the default), entropy_stm32_rng_init()
+	  checks LL_RCC_HSI48_IsReady() before starting pool filling and
+	  returns -ENODEV with a descriptive LOG_ERR if the clock is absent,
+	  allowing the rest of the system to continue initializing.
+	  This check is skipped when the RNG domain clock is explicitly
+	  configured via a second "clocks" cell in the DTS node, as the
+	  clock_control subsystem will verify it in that case.
+
 endif # ENTROPY_STM32_RNG
+
