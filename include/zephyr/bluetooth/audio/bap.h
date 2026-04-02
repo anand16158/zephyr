@@ -1890,6 +1890,7 @@ struct bt_bap_unicast_client_cb {
 	void (*enable)(struct bt_bap_stream *stream, enum bt_bap_ascs_rsp_code rsp_code,
 		       enum bt_bap_ascs_reason reason);
 
+#if defined(CONFIG_BT_BAP_UNICAST_CLIENT_ASE_SRC)
 	/**
 	 * @brief Callback function for bt_bap_stream_start().
 	 *
@@ -1919,6 +1920,7 @@ struct bt_bap_unicast_client_cb {
 	 */
 	void (*stop)(struct bt_bap_stream *stream, enum bt_bap_ascs_rsp_code rsp_code,
 		     enum bt_bap_ascs_reason reason);
+#endif /* CONFIG_BT_BAP_UNICAST_CLIENT_ASE_SRC */
 
 	/**
 	 * @brief Callback function for bt_bap_stream_disable().

@@ -1103,8 +1103,10 @@ static struct bt_bap_unicast_client_cb unicast_client_cbs = {
 	.config = unicast_client_config_cb,
 	.qos = unicast_client_qos_cb,
 	.enable = unicast_client_enable_cb,
+#if defined(CONFIG_BT_BAP_UNICAST_CLIENT_ASE_SRC)
 	.start = unicast_client_start_cb,
 	.stop = unicast_client_stop_cb,
+#endif /* defined(CONFIG_BT_BAP_UNICAST_CLIENT_ASE_SRC) */
 	.disable = unicast_client_disable_cb,
 	.metadata = unicast_client_metadata_cb,
 	.release = unicast_client_release_cb,
